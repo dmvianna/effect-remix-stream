@@ -1,4 +1,5 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -35,6 +36,10 @@ export const TodoRow = ({ todo }: { todo: Todo }) => {
   );
 };
 
+export const loader: LoaderFunction = (async (): Promise<Todo[]> => {
+  return [];
+}) satisfies LoaderFunction;
+
 export const AddTodoForm = () => {
   return (
     <form>
@@ -49,7 +54,7 @@ export const AddTodoForm = () => {
 };
 
 export default function Index() {
-  const todos: Todo[] = [];
+  const todos: Todo[] = useLoaderData<typeof loader>();
 
   return (
     <section className="todoapp">
