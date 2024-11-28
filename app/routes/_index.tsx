@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Effect } from "effect";
 import { loaderFunction } from "~/services/index";
-
+import { Todo } from "~/types/Todo"
 export const meta: MetaFunction = () => {
   return [
     { title: "Remixing Effect" },
@@ -12,13 +12,6 @@ export const meta: MetaFunction = () => {
     },
   ];
 };
-
-export interface Todo {
-  readonly id: number;
-  readonly title: string;
-  readonly createdAt: string;
-  readonly status: "COMPLETED" | "CREATED";
-}
 
 export const TodoRow = ({ todo }: { todo: Todo }) => {
   const isCompleted = todo.status === "COMPLETED";
