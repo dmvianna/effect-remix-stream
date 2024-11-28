@@ -1,6 +1,7 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Effect } from "effect";
+import { loaderFunction } from "~/lib/utilities";
 
 export const meta: MetaFunction = () => {
   return [
@@ -36,14 +37,6 @@ export const TodoRow = ({ todo }: { todo: Todo }) => {
     </li>
   );
 };
-
-const loaderFunction = <A,E>(
-  body: (...args: Parameters<LoaderFunction>) => Effect.Effect<A, E,
-  never>): {
-  (...args: Parameters<LoaderFunction>): Promise<A>;
-} =>
-  (...args) =>
-  Effect.runPromise(body(...args));
 
 export const loader = loaderFunction(()=> Effect.gen(function* () {
   return yield* Effect.succeed<Todo[]>([]);
