@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Effect } from "effect";
-import { loaderFunction } from "~/lib/utilities";
+import { loaderFunction } from "~/services/index";
 
 export const meta: MetaFunction = () => {
   return [
