@@ -37,12 +37,17 @@ export const TodoRow = ({ todo }: { todo: Todo }) => {
   );
 };
 
-export const loader: LoaderFunction = (() =>
-  Effect.runPromise(
-    Effect.gen(function* () {
-      return yield* Effect.succeed<Todo[]>([]);
-    })
-  )) satisfies LoaderFunction;
+const loaderFunction = <A,E>(
+  body: (...args: Parameters<LoaderFunction>) => Effect.Effect<A, E,
+  never>): {
+  (...args: Parameters<LoaderFunction>): Promise<A>;
+} =>
+  (...args) =>
+  Effect.runPromise(body(...args));
+
+export const loader = loaderFunction(()=> Effect.gen(function* () {
+  return yield* Effect.succeed<Todo[]>([]);
+}))
 
 export const AddTodoForm = () => {
   return (
