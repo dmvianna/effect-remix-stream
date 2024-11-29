@@ -44,7 +44,7 @@ export const AddTodoForm = () => {
   );
 };
 
-export const loader = loaderFunction(() => TodoRepo.Service.getAllTodos);
+export const loader = loaderFunction(() => TodoRepo.getAllTodos);
 
 export default function Index() {
   const todos = useLoaderData<typeof loader>();

@@ -1,4 +1,4 @@
-import { Context, Effect, Layer } from "effect";
+import { Effect, Layer } from "effect";
 import { Todo } from "~/types/Todo";
 
 const makeTodoRepo = Effect.sync(() => {
@@ -22,7 +22,7 @@ const makeTodoRepo = Effect.sync(() => {
   };
 });
 
-export class TodoRepo extends Context.Tag("@services/TodoRepo")<
+export class TodoRepo extends Effect.Tag("@services/TodoRepo")<
   TodoRepo,
   Effect.Effect.Success<typeof makeTodoRepo>
 >() {
