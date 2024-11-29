@@ -13,5 +13,5 @@ export const makeRemixRuntime = <R, E>(layer: Layer.Layer<R, E, never>) => {
     (...args) =>
       runtime.runPromise(body(...args));
 
-  return loaderFunction;
+  return { loaderFunction };
 };
