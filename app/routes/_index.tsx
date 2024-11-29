@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { Effect } from "effect";
 import { loaderFunction } from "~/services/index";
 import { TodoRepo } from "~/services/TodoRepo";
-import { Todo } from "~/types/Todo";
+import { TodoEncoded } from "~/types/Todo";
 export const meta: MetaFunction = () => {
   return [
     { title: "Remixing Effect" },
@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const TodoRow = ({ todo }: { todo: Todo }) => {
+export const TodoRow = ({ todo }: { todo: TodoEncoded }) => {
   const isCompleted = todo.status === "COMPLETED";
   return (
     <li className={isCompleted ? "completed" : ""} key={todo.id}>
@@ -47,8 +47,7 @@ export const AddTodoForm = () => {
 
 export const loader = loaderFunction(() =>
   Effect.gen(function* () {
-    const todos = yield* TodoRepo.Service.getAllTodos;
-    return todos;
+    return yield* TodoRepo.Service.getAllTodos;
   })
 );
 
