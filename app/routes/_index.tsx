@@ -2,7 +2,8 @@ import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Effect } from "effect";
 import { loaderFunction } from "~/services/index";
-import { Todo } from "~/types/Todo"
+import { TodoRepo } from "~/services/TodoRepo";
+import { Todo } from "~/types/Todo";
 export const meta: MetaFunction = () => {
   return [
     { title: "Remixing Effect" },
@@ -31,10 +32,6 @@ export const TodoRow = ({ todo }: { todo: Todo }) => {
   );
 };
 
-export const loader = loaderFunction(()=> Effect.gen(function* () {
-  return yield* Effect.succeed<Todo[]>([]);
-}))
-
 export const AddTodoForm = () => {
   return (
     <form>
@@ -48,8 +45,15 @@ export const AddTodoForm = () => {
   );
 };
 
+export const loader = loaderFunction(() =>
+  Effect.gen(function* () {
+    const todos = yield* TodoRepo.Service.getAllTodos;
+    return todos;
+  })
+);
+
 export default function Index() {
-  const todos: Todo[] = useLoaderData<typeof loader>();
+  const todos = useLoaderData<typeof loader>();
 
   return (
     <section className="todoapp">
