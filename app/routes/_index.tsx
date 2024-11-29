@@ -1,9 +1,8 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Effect } from "effect";
 import { loaderFunction } from "~/services/index";
 import { TodoRepo } from "~/services/TodoRepo";
-import { TodoEncoded } from "~/types/Todo";
+import { Todo } from "~/types/Todo";
 export const meta: MetaFunction = () => {
   return [
     { title: "Remixing Effect" },
@@ -14,7 +13,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const TodoRow = ({ todo }: { todo: TodoEncoded }) => {
+export const TodoRow = ({ todo }: { todo: Todo.Encoded }) => {
   const isCompleted = todo.status === "COMPLETED";
   return (
     <li className={isCompleted ? "completed" : ""} key={todo.id}>
