@@ -20,12 +20,8 @@ const todos = [
   }),
 ];
 
-export const runnable = program.pipe(
-  Effect.provideService(TodoRepo, {
-    getAllTodos: Effect.sync(() => todos)
-  })
-)
-
 export const TodoRepoLive = Layer.succeed(TodoRepo, TodoRepo.of({
-  getAllTodos: runnable
+  getAllTodos: Effect.succeed(todos)
 }))
+
+export const runnable = Effect.provide(program, TodoRepoLive)
