@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { loaderFunction } from "~/services/index";
-import { TodoRepo } from "~/services/TodoRepo";
+import { runnable } from "~/services/TodoRepo";
 import { Todo } from "~/types/Todo";
 export const meta: MetaFunction = () => {
   return [
@@ -44,7 +44,7 @@ export const AddTodoForm = () => {
   );
 };
 
-export const loader = loaderFunction(() => TodoRepo.getAllTodos);
+export const loader = loaderFunction(() => runnable);
 
 export default function Index() {
   const todos = useLoaderData<typeof loader>();
