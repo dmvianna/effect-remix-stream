@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { Effect, ManagedRuntime, Layer } from "effect";
 
 export const makeRemixRuntime = <R, E>(layer: Layer.Layer<R, E, never>) => {
@@ -13,5 +13,14 @@ export const makeRemixRuntime = <R, E>(layer: Layer.Layer<R, E, never>) => {
     (...args) =>
       runtime.runPromise(body(...args));
 
-  return { loaderFunction };
+  const actionFunction =
+    <A, E>(
+      body: (...args: Parameters<ActionFunction>) => Effect.Effect<A, E, never>
+    ): {
+      (...args: Parameters<ActionFunction>): Promise<A>;
+    } =>
+    (...args) =>
+      runtime.runPromise(body(...args));
+
+  return { loaderFunction, actionFunction };
 };

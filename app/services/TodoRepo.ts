@@ -3,12 +3,18 @@ import { Todo } from "~/types/Todo";
 
 export class TodoRepo extends Context.Tag("@services/TodoRepo")<
   TodoRepo,
-{ readonly getAllTodos: Effect.Effect<Todo[]> }>() {}
+{ readonly getAllTodos: Effect.Effect<Todo[]>
+  readonly deleteAll: Effect.Effect<void>
+}>() {}
 
 export const getF = Effect.gen(function* () {
   const repo = yield* TodoRepo;
-  const todos = yield* repo.getAllTodos;
-  return todos;
+  return yield* repo.getAllTodos;
+})
+
+export const delF = Effect.gen(function* () {
+  const repo = yield* TodoRepo;
+  yield* repo.deleteAll;
 })
 
 const todos = [
@@ -21,7 +27,9 @@ const todos = [
 ];
 
 export const TodoRepoLive = Layer.succeed(TodoRepo, TodoRepo.of({
-  getAllTodos: Effect.succeed(todos)
+  getAllTodos: Effect.succeed(todos),
+  deleteAll: Effect.succeed([])
 }))
 
 export const runGet = Effect.provide(getF, TodoRepoLive)
+export const runDel = Effect.provide(delF, TodoRepoLive)
