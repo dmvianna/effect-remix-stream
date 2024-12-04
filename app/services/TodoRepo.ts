@@ -5,7 +5,7 @@ export class TodoRepo extends Context.Tag("@services/TodoRepo")<
   TodoRepo,
 { readonly getAllTodos: Effect.Effect<Todo[]> }>() {}
 
-export const program = Effect.gen(function* () {
+export const getF = Effect.gen(function* () {
   const repo = yield* TodoRepo;
   const todos = yield* repo.getAllTodos;
   return todos;
@@ -24,4 +24,4 @@ export const TodoRepoLive = Layer.succeed(TodoRepo, TodoRepo.of({
   getAllTodos: Effect.succeed(todos)
 }))
 
-export const runnable = Effect.provide(program, TodoRepoLive)
+export const runGet = Effect.provide(getF, TodoRepoLive)
